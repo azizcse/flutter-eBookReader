@@ -107,6 +107,7 @@ class EpubState extends State<EpubWidget> {
 Widget buildEpubWidget(epub.EpubBookRef book) {
   var chapters = book.getChapters();
   var cover = book.readCover();
+  _sowText(book);
   return Container(
       child: new Column(
         children: <Widget>[
@@ -142,7 +143,8 @@ Widget buildEpubWidget(epub.EpubBookRef book) {
                       Text(
                         snapshot.data.length.toString(),
                         style: TextStyle(fontSize: 15.0),
-                      )
+                      ),
+                      //Text(snapshot.data),
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -173,13 +175,22 @@ Widget buildEpubWidget(epub.EpubBookRef book) {
       ));
 }
 
+void _sowText(epub.EpubBookRef book)async{
+  var chapter = await book.getChapters();
+  chapter.forEach((chap)async{
+    var html = await chap.epubTextContentFileRef.toString();
+    //print("Chapter text ="+html);
+  });
+  //print("Chapter text "+book.Content.);
+}
+
 // Needs a url to a valid url to an epub such as
 // https://www.gutenberg.org/ebooks/11.epub.images
 // or
 // https://www.gutenberg.org/ebooks/19002.epub.images
 Future<epub.EpubBookRef> fetchBook(String url) async {
   // Hard coded to Alice Adventures In Wonderland in Project Gutenberb
-  final response = await http.get('https://www.gutenberg.org/ebooks/11.epub.images');
+  final response = await http.get('https://www.gutenberg.org/ebooks/19002.epub.images');
 
   if (response.statusCode == 200) {
     // If server returns an OK response, parse the EPUB
