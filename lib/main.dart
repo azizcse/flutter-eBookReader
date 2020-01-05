@@ -1,4 +1,19 @@
 import 'package:flutter/material.dart';
+import 'pages/app.dart';
+import 'utils/initial.dart';
+
+void main() async {
+  /// initialize the app
+  await initial();
+
+  /// run the app
+  runApp(new App());
+}
+
+/*
+
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:epub/epub.dart' as epub;
 import 'package:image/image.dart' as image;
@@ -199,4 +214,4 @@ Future<epub.EpubBookRef> fetchBook(String url) async {
     // If that response was not OK, throw an error.
     throw Exception('Failed to load epub');
   }
-}
+}*/
