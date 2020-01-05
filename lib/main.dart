@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'pages/app.dart';
 import 'utils/initial.dart';
 
@@ -8,9 +8,9 @@ void main() async {
 
   /// run the app
   runApp(new App());
-}
+}*/
 
-/*
+
 
 
 import 'package:flutter/material.dart';
@@ -214,4 +214,4 @@ Future<epub.EpubBookRef> fetchBook(String url) async {
     // If that response was not OK, throw an error.
     throw Exception('Failed to load epub');
   }
-}*/
+}
