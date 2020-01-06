@@ -91,8 +91,9 @@ class SystemService {
       SimplePermissions.checkPermission(permission);
 
   /// Request a [permission] and return a [Future] with the result
-  /*Future<bool> requestPermission(permission) =>
-      SimplePermissions.requestPermission(permission);*/
+  Future<bool> requestPermission(permission) async {
+    return true; //await SimplePermissions.requestPermission(permission);
+  }
 
   /// Open app settings on Android and iOs
   Future<bool> openSettings() => SimplePermissions.openSettings();
