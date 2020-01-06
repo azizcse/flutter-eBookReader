@@ -19,6 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:epub/epub.dart' as epub;
 import 'package:image/image.dart' as image;
+import 'package:html/parser.dart';
+import 'package:html/dom.dart' as dom;
 
 void main() => runApp(EpubWidget());
 
@@ -196,6 +198,9 @@ void _sowText(epub.EpubBookRef book)async{
   var chapter = await book.getChapters();
   chapter.forEach((chap)async{
     var html = await chap.epubTextContentFileRef.toString();
+    var content = await chap.readHtmlContent();
+    dom.Document doc = parse(content);
+    print("Document body "+doc.body.text);
     //print("Chapter text ="+html);
   });
   //print("Chapter text "+book.Content.);
