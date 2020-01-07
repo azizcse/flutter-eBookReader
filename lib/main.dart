@@ -160,7 +160,7 @@ Widget buildEpubWidget(epub.EpubBookRef book) {
                     children: <Widget>[
                       Text("Chapters", style: TextStyle(fontSize: 20.0)),
                       Text(
-                        snapshot.data.length.toString(),
+                        snapshot.data.toString(),
                         style: TextStyle(fontSize: 15.0),
                       ),
                       //Text(snapshot.data),
@@ -200,8 +200,10 @@ void _sowText(epub.EpubBookRef book)async{
     var html = await chap.epubTextContentFileRef.toString();
     var content = await chap.readHtmlContent();
     dom.Document doc = parse(content);
-    print("Document body "+doc.body.text);
+    //print("Document body "+doc.body.text);
     //print("Chapter text ="+html);
+    var para = await chap.epubTextContentFileRef.ReadContentAsync();
+    print("Document body "+para);
   });
   //print("Chapter text "+book.Content.);
 }
