@@ -16,6 +16,7 @@ void main() async {
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ebup_test/book_reader.dart';
 import 'package:http/http.dart' as http;
 import 'package:epub/epub.dart' as epub;
 import 'package:image/image.dart' as image;
@@ -156,6 +157,10 @@ Widget buildEpubWidget(epub.EpubBookRef book) {
               future: chapters,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  for(int i = 0; i < snapshot.data.length; i++){
+                    //print(snapshot.data[i].toString());
+                  }
+
                   return Column(
                     children: <Widget>[
                       Text("Chapters", style: TextStyle(fontSize: 20.0)),
@@ -203,9 +208,25 @@ void _sowText(epub.EpubBookRef book)async{
     //print("Document body "+doc.body.text);
     //print("Chapter text ="+html);
     var para = await chap.epubTextContentFileRef.ReadContentAsync();
-    print("Document body "+para);
+    //print("Document body "+para);
   });
   //print("Chapter text "+book.Content.);
+}
+
+void _printAllData(epub.EpubBook book) async{
+  print("Ebook instance for loop");
+  var content = await BookEncoder().decodeEpub(book);
+  print("book content : \n ${content["content"]}");
+  /*epub.EpubContent bookContent = book.Content;
+
+  book.Chapters.forEach((chapter){
+    String chapterTitle = chapter.Title;
+
+    // HTML content of current chapter
+    String chapterHtmlContent = chapter.HtmlContent;
+    print(chapterTitle+"\n "+chapterHtmlContent);
+
+  });*/
 }
 
 // Needs a url to a valid url to an epub such as
@@ -214,14 +235,20 @@ void _sowText(epub.EpubBookRef book)async{
 // https://www.gutenberg.org/ebooks/19002.epub.images
 Future<epub.EpubBookRef> fetchBook(String url) async {
   // Hard coded to Alice Adventures In Wonderland in Project Gutenberb
-  final response = await http.get('https://www.gutenberg.org/ebooks/19002.epub.images');
+  final response = await http.get('https://www.gutenberg.org/ebooks/19002.epub');
 
   if (response.statusCode == 200) {
     // If server returns an OK response, parse the EPUB
+
+    var value = await epub.EpubReader.readBook(response.bodyBytes);
+
+    print("Read boo value ="+value.Chapters.length.toString());
+    _printAllData(value);
     return epub.EpubReader.openBook(response.bodyBytes);
   } else {
     // If that response was not OK, throw an error.
     throw Exception('Failed to load epub');
   }
+
 }
 
